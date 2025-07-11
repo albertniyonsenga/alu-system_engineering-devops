@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# SSH client configuration to use private key ~/.ssh/school 
+# And disable password authentication
+
+Host *
+    IdentityFile ~/.ssh/school
+    PasswordAuthentication no
