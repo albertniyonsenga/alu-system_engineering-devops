@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# 3-let_me_in
 # Adds the provided SSH public key to the ubuntu user's authorized_keys on the server
 
 # Public key to add
