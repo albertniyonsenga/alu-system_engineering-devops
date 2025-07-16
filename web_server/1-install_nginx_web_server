@@ -1,12 +1,49 @@
 #!/usr/bin/env bash
 # Script to install Nginx and configures simple page 
+set -e
 
+# Update package lists and install nginx quietly with auto yes
 apt-get update -y
-apt-get install -y nginx # Installing Nginx server
+apt-get install -y nginx
 
-# Write the expected content to index.html
-mkdir -p /var/www/web01/html/index.html
-echo "Holberton School for the win!" > /var/www/web01/html/index.html
+# Create website root directory
+WEB_ROOT="/var/www/web01/html"
+mkdir -p "$WEB_ROOT"
 
-# Restarting using service command (no systemctl)
-service nginx restart #
+# Create the index.html file with required content
+echo "Holberton School for the win!" > "$WEB_ROOT/index.html"
+
+# Set ownership and permissions
+chown -R www-data:www-data /var/www/web01
+chmod -R 755 /var/www/web01
+
+# Create nginx server block config file
+NGINX_CONF="/etc/nginx/sites-available/web01"
+
+cat > "$NGINX_CONF" <<EOF
+server {
+    listen 80;
+    listen [::]:80;
+
+    root $WEB_ROOT;
+    index index.html index.htm;
+
+    server_name web01;
+
+    location / {
+        try_files \$uri \$uri/ =404;
+    }
+}
+EOF
+
+# Enable the server block by creating the symbolic link
+ln -sf "$NGINX_CONF" /etc/nginx/sites-enabled/
+
+# Remove default site to avoid conflicts
+rm -f /etc/nginx/sites-enabled/default
+
+# Test nginx configuration syntax
+nginx -t
+
+# Restart nginx service without using systemctl
+service nginx restart
