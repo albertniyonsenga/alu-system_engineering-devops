@@ -5,12 +5,8 @@ apt-get update -y
 apt-get install -y nginx # Installing Nginx server
 
 # Write the expected content to index.html
-mkdir -p /var/www/html/index.html
-echo "Holberton School for the win!" > /var/www/html/index.html
-
-# Ensure root directive points to /var/www/html and index includes index.html
-sed -i 's#root .*;#root /var/www/html;#g' /etc/nginx/sites-available/default
-sed -i '/index /c\    index index.html index.htm;' /etc/nginx/sites-available/default
+mkdir -p /var/www/web01/html/index.html
+echo "Holberton School for the win!" > /var/www/web01/html/index.html
 
 # Restarting using service command (no systemctl)
 service nginx restart #
