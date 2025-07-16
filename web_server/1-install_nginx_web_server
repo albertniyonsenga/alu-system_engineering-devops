@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Script to install Nginx and configures simple page 
+
+apt-get update -y
+apt-get install -y nginx # Installing Nginx server
+
+echo "Holberton School for the win!" >> /var/www/html/index.nginx-debian.html
+
+# Restarting using service command (no systemctl)
+service nginx restart #
